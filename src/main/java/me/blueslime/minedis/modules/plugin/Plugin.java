@@ -3,6 +3,7 @@ package me.blueslime.minedis.modules.plugin;
 import me.blueslime.minedis.Minedis;
 import me.blueslime.minedis.modules.DiscordModule;
 import me.blueslime.minedis.modules.cache.Cache;
+import me.blueslime.minedis.utils.file.FileUtilities;
 import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.config.ConfigurationProvider;
 import net.md_5.bungee.config.YamlConfiguration;
@@ -41,9 +42,16 @@ public abstract class Plugin extends net.md_5.bungee.api.plugin.Plugin {
     }
 
     public void build() {
-
+        FileUtilities.saveResource(
+                new File(getDataFolder(), "settings.yml"),
+                getResourceAsStream("settings.yml")
+        );
         settings = loadConfiguration(getDataFolder(), "settings.yml");
 
+        FileUtilities.saveResource(
+                new File(getDataFolder(), "messages.yml"),
+                getResourceAsStream("messages.yml")
+        );
         messages = loadConfiguration(getDataFolder(), "messages.yml");
 
     }
