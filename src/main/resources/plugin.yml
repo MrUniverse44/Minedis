@@ -1,0 +1,6 @@
+name: Minedis
+version: ${project.version}
+main: me.blueslime.minedis.Minedis
+author: JustJustin
+authors:
+  - JustJustin

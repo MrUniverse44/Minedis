@@ -1,0 +1,39 @@
+#
+# ┏━┓┏━┓╋╋╋╋╋╋╋╋┏┓
+# ┃┃┗┛┃┃╋╋╋╋╋╋╋╋┃┃
+# ┃┏┓┏┓┣┳━┓┏━━┳━┛┣┳━━┓
+# ┃┃┃┃┃┣┫┏┓┫┃━┫┏┓┣┫━━┫
+# ┃┃┃┃┃┃┃┃┃┃┃━┫┗┛┃┣━━┃
+# ┗┛┗┛┗┻┻┛┗┻━━┻━━┻┻━━┛
+#
+# Created by JustJustin
+settings:
+  # Debug mode will help you when you have an issue, it will show extra logs for the developer to help you with the problem
+  debug-mode: false
+  # Here you can put your bot token, you can create your own bot in: https://discord.com/developers/applications
+  token: NOT-SET
+  # Bot Online Status System
+  online-status:
+    # Here you can enable or disable this feature.
+    enabled: true
+    # Here you can change the bot status.
+    # Status list: ONLINE, IDLE, DO_NOT_DISTURB, INVISIBLE,  OFFLINE
+    status: ONLINE
+    # Here you can edit the text of your status
+    value: mc.spigotmc.org
+  # Intents for this bot
+  gateway-intents:
+    - MESSAGE_CONTENT
+    - GUILD_MEMBERS
+    - GUILD_MESSAGES
+    - GUILD_MESSAGE_REACTIONS
+    - DIRECT_MESSAGES
+    - GUILD_VOICE_STATES
+    - GUILD_EMOJIS_AND_STICKERS
+    - GUILD_MODERATION
+    - GUILD_VOICE_STATES
+    - GUILD_PRESENCES
+
+# Warn: do not modify this path
+# This value will help the plugin to auto-update configuration file when is outdated.
+configuration-version: 1.0

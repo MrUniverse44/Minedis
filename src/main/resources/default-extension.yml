@@ -1,0 +1,9 @@
+# Extension Configuration
+# v0.1
+# This extension system is currently in beta
+#
+# Here you can edit your settings of the extension
+settings:
+  # Here you can manually enable or disable this extension, this path is obligatory for all extensions.
+  enabled: true
+# Here you can edit extra stuff of this extension.
