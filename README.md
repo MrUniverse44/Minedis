@@ -1,3 +1,5 @@
+<img align="center" alt="Minedis Image" src="https://i.imgur.com/z5beB3N.png">
+
 # Minedis
 
 A plugin created for discord and minecraft servers to create a big universe 
