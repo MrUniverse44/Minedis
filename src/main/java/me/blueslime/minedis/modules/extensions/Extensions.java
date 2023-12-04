@@ -181,4 +181,8 @@ public class Extensions extends DiscordModule {
             return null;
         });
     }
+
+    public Map<String, MinedisExtension> getExtensionMap() {
+        return extensionMap;
+    }
 }
