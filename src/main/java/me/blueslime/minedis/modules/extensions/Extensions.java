@@ -26,7 +26,9 @@ public class Extensions extends DiscordModule {
 
         folder = getDirectoryFile("extensions");
 
-        plugin.getLogger().info("Loading extensions...   (" + folder.mkdirs() + ")");
+        boolean state = folder.mkdirs() || folder.exists();
+
+        plugin.getLogger().info("Loading extensions...   (" + state + ")");
     }
 
     @Override
