@@ -6,13 +6,10 @@ import me.blueslime.minedis.api.extension.MinedisExtension;
 import me.blueslime.minedis.modules.DiscordModule;
 import me.blueslime.minedis.modules.commands.list.MainCommand;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Commands extends DiscordModule {
-    private Map<Class<? extends MinedisExtension>, List<MinecraftCommand>> commandMap = new HashMap<>();
+    private final Map<Class<? extends MinedisExtension>, List<MinecraftCommand>> commandMap = new HashMap<>();
     public Commands(Minedis plugin) {
         super(plugin);
     }
@@ -42,5 +39,14 @@ public class Commands extends DiscordModule {
 
             list.forEach(command -> getPluginManager().unregisterCommand(command));
         }
+    }
+
+    public List<MinecraftCommand> getCommands(MinedisExtension extension) {
+        if (commandMap.containsKey(extension.getClass())) {{
+            return Collections.unmodifiableList(
+                    commandMap.get(extension.getClass())
+            );
+        }}
+        return Collections.emptyList();
     }
 }

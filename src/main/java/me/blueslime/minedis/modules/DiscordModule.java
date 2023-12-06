@@ -1,10 +1,13 @@
 package me.blueslime.minedis.modules;
 
 import me.blueslime.minedis.modules.cache.Cache;
+import me.blueslime.minedis.modules.discord.Bot;
+import me.blueslime.minedis.modules.discord.Controller;
 import me.blueslime.minedis.modules.extensions.Extensions;
 import me.blueslime.minedis.utils.file.FileUtilities;
 import me.blueslime.minedis.utils.text.TextUtilities;
 import me.blueslime.minedis.Minedis;
+import net.dv8tion.jda.api.JDA;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.PluginManager;
@@ -113,6 +116,14 @@ public abstract class DiscordModule {
         } catch (IOException e) {
             return new Configuration();
         }
+    }
+
+    public Bot getBot() {
+        return getModule(Controller.class).getBot();
+    }
+
+    public JDA getJDA() {
+        return getBot().getClient();
     }
 
     public void saveConfiguration(Configuration configuration, String filename) {

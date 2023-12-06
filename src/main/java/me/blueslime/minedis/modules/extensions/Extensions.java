@@ -4,6 +4,8 @@ import me.blueslime.minedis.Minedis;
 import me.blueslime.minedis.api.extension.MinedisExtension;
 import me.blueslime.minedis.api.extension.MinedisExtensionIdentifierException;
 import me.blueslime.minedis.modules.DiscordModule;
+import me.blueslime.minedis.modules.commands.Commands;
+import me.blueslime.minedis.modules.listeners.Listeners;
 import me.blueslime.minedis.utils.task.TaskExecutor;
 
 import java.io.File;
@@ -31,6 +33,8 @@ public class Extensions extends DiscordModule {
     public void load() {
         for (MinedisExtension extension : extensionMap.values()) {
             extension.onDisable();
+            getModule(Commands.class).unload(extension);
+            getModule(Listeners.class).unregister(extension);
         }
 
         extensionMap.clear();
@@ -56,6 +60,7 @@ public class Extensions extends DiscordModule {
                                                     instance.getIdentifier(),
                                                     instance
                                             );
+                                            instance.onEnabled();
                                             getLogger().info("Extension: " + extension.getName() + " was loaded using identifier: " + instance.getIdentifier());
                                         } else {
                                             getLogger().info("Ignoring extension: " + extension.getName() + ", This extension have a conflict with other extension using the same identifier. (" + instance.getIdentifier() + ")");
@@ -81,9 +86,6 @@ public class Extensions extends DiscordModule {
                                 }
                             }
                         }
-                    }
-                    for (MinedisExtension extension : extensionMap.values()) {
-                        extension.onEnabled();
                     }
                 }
         );

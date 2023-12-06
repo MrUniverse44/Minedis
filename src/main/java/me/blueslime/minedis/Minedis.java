@@ -4,6 +4,7 @@ import me.blueslime.minedis.api.MinedisAPI;
 import me.blueslime.minedis.modules.commands.Commands;
 import me.blueslime.minedis.modules.discord.Controller;
 import me.blueslime.minedis.modules.extensions.Extensions;
+import me.blueslime.minedis.modules.listeners.Listeners;
 import me.blueslime.minedis.modules.plugin.Plugin;
 
 public class Minedis extends Plugin {
@@ -23,8 +24,9 @@ public class Minedis extends Plugin {
         registerModule(
                 new MinedisAPI(this),
                 new Commands(this),
-                new Controller(this),
-                new Extensions(this)
+                new Listeners(this),
+                new Extensions(this),
+                new Controller(this)
         ).finish();
     }
 }

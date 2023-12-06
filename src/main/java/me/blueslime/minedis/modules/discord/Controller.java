@@ -18,6 +18,7 @@ public class Controller extends DiscordModule {
         }
     }
 
+    @Override
     public Bot getBot() {
         return bot;
     }

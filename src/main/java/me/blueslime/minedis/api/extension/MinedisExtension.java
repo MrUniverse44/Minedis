@@ -1,10 +1,16 @@
 package me.blueslime.minedis.api.extension;
 
+import me.blueslime.minedis.Minedis;
 import me.blueslime.minedis.api.MinedisAPI;
 import me.blueslime.minedis.api.command.MinecraftCommand;
 import me.blueslime.minedis.modules.DiscordModule;
 import me.blueslime.minedis.modules.cache.Cache;
 import me.blueslime.minedis.modules.commands.Commands;
+import me.blueslime.minedis.modules.discord.Bot;
+import me.blueslime.minedis.modules.discord.Controller;
+import me.blueslime.minedis.modules.listeners.Listeners;
+import net.dv8tion.jda.api.JDA;
+import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.config.ConfigurationProvider;
 import net.md_5.bungee.config.YamlConfiguration;
@@ -12,7 +18,9 @@ import net.md_5.bungee.config.YamlConfiguration;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
+@SuppressWarnings("unused")
 public abstract class MinedisExtension {
     private Configuration configuration;
 
@@ -72,6 +80,49 @@ public abstract class MinedisExtension {
 
     public InputStream getConfigurationInputStream() {
         return MinedisAPI.get().getResource("default-extension.yml");
+    }
+
+    public void registerEventListeners(Object... listeners) {
+        getPlugin().getModule(Listeners.class).registerDiscord(this, listeners);
+    }
+
+    public void registerMinecraftListeners(Listener... listeners) {
+        getPlugin().getModule(Listeners.class).registerMinecraft(this, listeners);
+    }
+
+    public void unregisterListeners() {
+        getPlugin().getModule(Listeners.class).unregister(this);
+    }
+
+    public List<MinecraftCommand> getRegisteredCommands() {
+        return getPlugin().getModule(Commands.class).getCommands(this);
+    }
+
+    public Bot getBot() {
+        return getPlugin().getModule(Controller.class).getBot();
+    }
+
+    /**
+     * Register a new cache for all extensions and for the main plugin
+     * @param cache to register
+     */
+    public void registerCache(Cache<?, ?> cache) {
+        getPlugin().getCacheMap().put(
+                cache.getClass(),
+                cache
+        );
+    }
+
+    public JDA getJDA() {
+        return getPlugin().getModule(Controller.class).getJDA();
+    }
+
+    public List<Object> getRegisteredDiscordListeners() {
+        return getPlugin().getModule(Listeners.class).getDiscord(this);
+    }
+
+    public List<Listener> getRegisteredMinecraftListeners() {
+        return getPlugin().getModule(Listeners.class).getMinecraft(this);
     }
 
     public MinedisExtension registerMinecraftCommand(MinecraftCommand command) {
@@ -142,5 +193,9 @@ public abstract class MinedisExtension {
                 ).save(configuration, file);
             } catch (IOException ignored) {}
         }
+    }
+
+    public Minedis getPlugin() {
+        return MinedisAPI.get().getPlugin();
     }
 }

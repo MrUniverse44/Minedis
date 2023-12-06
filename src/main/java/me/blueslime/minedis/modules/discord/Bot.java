@@ -1,6 +1,7 @@
 package me.blueslime.minedis.modules.discord;
 
 import me.blueslime.minedis.Minedis;
+import me.blueslime.minedis.modules.extensions.Extensions;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.events.GenericEvent;
@@ -55,6 +56,8 @@ public class Bot extends Thread implements EventListener {
 
             this.client = builder.build();
             controller.getLogger().info("Discord bot has been created with " + intents + " GatewayIntent(s).");
+
+            getPlugin().getModule(Extensions.class).load();
         }
     }
 
