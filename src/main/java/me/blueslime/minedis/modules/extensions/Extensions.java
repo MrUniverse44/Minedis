@@ -56,7 +56,6 @@ public class Extensions extends DiscordModule {
                                                     instance.getIdentifier(),
                                                     instance
                                             );
-                                            instance.onEnabled();
                                             getLogger().info("Extension: " + extension.getName() + " was loaded using identifier: " + instance.getIdentifier());
                                         } else {
                                             getLogger().info("Ignoring extension: " + extension.getName() + ", This extension have a conflict with other extension using the same identifier. (" + instance.getIdentifier() + ")");
@@ -82,6 +81,9 @@ public class Extensions extends DiscordModule {
                                 }
                             }
                         }
+                    }
+                    for (MinedisExtension extension : extensionMap.values()) {
+                        extension.onEnabled();
                     }
                 }
         );
