@@ -10,6 +10,7 @@ import me.blueslime.minedis.modules.discord.Bot;
 import me.blueslime.minedis.modules.discord.Controller;
 import me.blueslime.minedis.modules.listeners.Listeners;
 import net.dv8tion.jda.api.JDA;
+import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.config.ConfigurationProvider;
@@ -19,6 +20,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.logging.Logger;
 
 @SuppressWarnings("unused")
 public abstract class MinedisExtension {
@@ -136,6 +138,14 @@ public abstract class MinedisExtension {
         );
         api.getPlugin().getModule(Commands.class).add(this, command);
         return this;
+    }
+
+    public Logger getLogger() {
+        return getPlugin().getLogger();
+    }
+
+    public ProxyServer getProxy() {
+        return getPlugin().getProxy();
     }
 
     public boolean isEnabled() {
