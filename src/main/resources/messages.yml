@@ -1,0 +1,3 @@
+messages:
+  kick:
+    refresh: "&aThis network is refreshing some important stuff, please wait 1 second and try again"

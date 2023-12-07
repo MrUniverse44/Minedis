@@ -20,10 +20,15 @@ public abstract class Plugin extends net.md_5.bungee.api.plugin.Plugin {
     private Configuration settings;
     private Configuration messages;
 
+    private boolean preventJoin;
+
     protected void initialize(Minedis plugin) {
+
         build();
 
         registerModules();
+
+        setPreventJoin(true);
 
         loadModules();
     }
@@ -115,6 +120,14 @@ public abstract class Plugin extends net.md_5.bungee.api.plugin.Plugin {
 
     public Map<Class<?>, Cache<?, ?>> getCacheMap() {
         return cacheMap;
+    }
+
+    public boolean isRefreshing() {
+        return preventJoin;
+    }
+
+    public void setPreventJoin(boolean preventJoin) {
+        this.preventJoin = preventJoin;
     }
 
     public Configuration getSettings() {

@@ -33,6 +33,7 @@ public class Extensions extends DiscordModule {
 
     @Override
     public void load() {
+        getPlugin().setPreventJoin(true);
         for (MinedisExtension extension : extensionMap.values()) {
             extension.onDisable();
             getModule(Commands.class).unload(extension);
@@ -89,6 +90,7 @@ public class Extensions extends DiscordModule {
                             }
                         }
                     }
+                    getPlugin().setPreventJoin(false);
                 }
         );
     }

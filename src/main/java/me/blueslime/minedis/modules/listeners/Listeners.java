@@ -3,6 +3,7 @@ package me.blueslime.minedis.modules.listeners;
 import me.blueslime.minedis.Minedis;
 import me.blueslime.minedis.api.extension.MinedisExtension;
 import me.blueslime.minedis.modules.DiscordModule;
+import me.blueslime.minedis.modules.listeners.player.ConnectionListener;
 import net.md_5.bungee.api.plugin.Listener;
 
 import java.util.*;
@@ -12,6 +13,11 @@ public class Listeners extends DiscordModule {
     private final Map<Class<? extends MinedisExtension>, List<Object>> discordMap = new HashMap<>();
     public Listeners(Minedis plugin) {
         super(plugin);
+
+        getPluginManager().registerListener(
+                plugin,
+                new ConnectionListener(plugin)
+        );
     }
 
     public void registerDiscord(MinedisExtension extension, Object... objects) {
