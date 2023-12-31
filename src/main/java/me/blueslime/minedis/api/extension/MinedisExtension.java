@@ -106,11 +106,12 @@ public abstract class MinedisExtension {
 
     /**
      * Register a new cache for all extensions and for the main plugin
+     * @param identifier to get the cache
      * @param cache to register
      */
-    public void registerCache(Cache<?, ?> cache) {
+    public void registerCache(String identifier, Cache<?, ?> cache) {
         getPlugin().getCacheMap().put(
-                cache.getClass(),
+                identifier,
                 cache
         );
     }
