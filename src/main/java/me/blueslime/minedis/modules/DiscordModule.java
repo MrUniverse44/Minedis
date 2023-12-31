@@ -49,14 +49,36 @@ public abstract class DiscordModule {
         return plugin.getCache(id);
     }
 
-    public void registerCache(Cache<?, ?>... caches) {
+    public void registerCache(CacheData... caches) {
         if (caches != null && caches.length >= 1) {
-            for (Cache<?, ?> cache : caches) {
+            for (CacheData data : caches) {
                 plugin.getCacheMap().put(
-                        cache.getClass(),
-                        cache
+                        data.getIdentifier(),
+                        data.getCache()
                 );
             }
+        }
+    }
+
+    public static class CacheData {
+        private final String identifier;
+        private final Cache<?, ?> cache;
+
+        private CacheData(String identifier, Cache<?, ?> cache) {
+            this.identifier = identifier;
+            this.cache = cache;
+        }
+
+        public static CacheData build(String identifier, Cache<?, ?> cache) {
+            return new CacheData(identifier, cache);
+        }
+
+        public Cache<?, ?> getCache() {
+            return cache;
+        }
+
+        public String getIdentifier() {
+            return identifier;
         }
     }
 
