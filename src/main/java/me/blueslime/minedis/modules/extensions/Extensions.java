@@ -2,7 +2,6 @@ package me.blueslime.minedis.modules.extensions;
 
 import me.blueslime.minedis.Minedis;
 import me.blueslime.minedis.api.extension.MinedisExtension;
-import me.blueslime.minedis.api.extension.MinedisExtensionIdentifierException;
 import me.blueslime.minedis.modules.DiscordModule;
 import me.blueslime.minedis.modules.commands.Commands;
 import me.blueslime.minedis.modules.listeners.Listeners;
@@ -33,7 +32,6 @@ public class Extensions extends DiscordModule {
 
     @Override
     public void load() {
-        getPlugin().setPreventJoin(true);
         for (MinedisExtension extension : extensionMap.values()) {
             extension.onDisable();
             getModule(Commands.class).unload(extension);
@@ -74,23 +72,23 @@ public class Extensions extends DiscordModule {
                             } catch (Exception e) {
                                 if (e instanceof NullPointerException) {
                                     getLogger().info("Can't load extension: " + extension.getName() + ", because the extension was not found.");
+                                    e.printStackTrace();
                                     return;
                                 }
                                 if (e instanceof IllegalArgumentException) {
                                     getLogger().info("Can't load extension: " + extension.getName() + ", because the constructor have parameters");
+                                    e.printStackTrace();
                                     return;
                                 }
                                 if (e instanceof InstantiationException) {
                                     getLogger().info("Can't load extension: " + extension.getName() + ", this extension is a abstract class.");
+                                    e.printStackTrace();
                                     return;
                                 }
-                                if (e instanceof MinedisExtensionIdentifierException) {
-                                    e.printStackTrace();
-                                }
+                                e.printStackTrace();
                             }
                         }
                     }
-                    getPlugin().setPreventJoin(false);
                 }
         );
     }
@@ -151,11 +149,11 @@ public class Extensions extends DiscordModule {
 
                         classNameList.add(
                                 name.substring(
-                                        0,
-                                        name.lastIndexOf('.')
+                                    0,
+                                    name.lastIndexOf('.')
                                 ).replace(
-                                        '/',
-                                        '.'
+                                    '/',
+                                    '.'
                                 )
                         );
                     }
@@ -166,7 +164,7 @@ public class Extensions extends DiscordModule {
 
                             if (MinedisExtension.class.isAssignableFrom(loadedClazz)) {
                                 classList.add(
-                                        loadedClazz.asSubclass(MinedisExtension.class)
+                                    loadedClazz.asSubclass(MinedisExtension.class)
                                 );
                             }
                         }
@@ -176,17 +174,18 @@ public class Extensions extends DiscordModule {
                     if (classList.isEmpty()) {
                         getLogger().info("Failed to load extension " + file.getName() + ", this extension doesn't have MinedisExtensions class in the jar file.");
                         jarLoader.close();
-                        return null;
+                        return Collections.emptyList();
                     }
 
                     return classList;
                 } catch (Throwable ignored) {
 
                 }
-            } catch (Exception ignored) {
-                getLogger().info("The plugin can't load extensions :(");
+            } catch (Exception e) {
+                getLogger().info("The plugin can't load extensions in '" + file.getName() + "' file.");
+                e.printStackTrace();
             }
-            return null;
+            return Collections.emptyList();
         });
     }
 

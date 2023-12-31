@@ -45,8 +45,8 @@ public abstract class DiscordModule {
         return plugin.getModule(module);
     }
 
-    public <T extends Cache<?, ?>> T getCache(Class<T> cache) {
-        return plugin.getCache(cache);
+    public <K, V> Cache<K, V> getCache(String id) {
+        return plugin.getCache(id);
     }
 
     public void registerCache(Cache<?, ?>... caches) {

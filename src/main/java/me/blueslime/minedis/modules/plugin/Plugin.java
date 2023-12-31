@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public abstract class Plugin extends net.md_5.bungee.api.plugin.Plugin {
-    private final Map<Class<?>, Cache<?, ?>> cacheMap = new HashMap<>();
+    private final Map<String, Cache<?, ?>> cacheMap = new HashMap<>();
     private final Map<Class<?>, DiscordModule> moduleMap = new HashMap<>();
     private Configuration settings;
     private Configuration messages;
@@ -27,8 +27,6 @@ public abstract class Plugin extends net.md_5.bungee.api.plugin.Plugin {
         build();
 
         registerModules();
-
-        setPreventJoin(true);
 
         loadModules();
     }
@@ -97,8 +95,8 @@ public abstract class Plugin extends net.md_5.bungee.api.plugin.Plugin {
     }
 
     @SuppressWarnings("unchecked")
-    public <T extends Cache<?, ?>> T getCache(Class<T> cache) {
-        return (T) cacheMap.get(cache);
+    public <K, V> Cache<K, V> getCache(String id) {
+        return (Cache<K, V>) cacheMap.get(id);
     }
 
     public Plugin registerModule(DiscordModule... modules) {
@@ -118,7 +116,7 @@ public abstract class Plugin extends net.md_5.bungee.api.plugin.Plugin {
         return moduleMap;
     }
 
-    public Map<Class<?>, Cache<?, ?>> getCacheMap() {
+    public Map<String, Cache<?, ?>> getCacheMap() {
         return cacheMap;
     }
 

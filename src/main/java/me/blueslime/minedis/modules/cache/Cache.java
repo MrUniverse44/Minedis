@@ -2,7 +2,7 @@ package me.blueslime.minedis.modules.cache;
 
 import java.util.*;
 
-public abstract class Cache<K, V> {
+public class Cache<K, V> {
     private final Map<K, V> map;
 
     public Cache(Map<K, V> initialMap) {

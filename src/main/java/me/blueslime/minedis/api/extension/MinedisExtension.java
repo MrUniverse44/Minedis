@@ -175,12 +175,12 @@ public abstract class MinedisExtension {
         return api.getModule(module);
     }
 
-    public <T extends Cache<?, ?>> T getCache(Class<T> cache) {
+    public <K, V> Cache<K, V> getCache(String id) {
         MinedisAPI api = MinedisAPI.get();
         if (api == null) {
             return null;
         }
-        return api.getCache(cache);
+        return api.getCache(id);
     }
 
     public void saveConfiguration() {

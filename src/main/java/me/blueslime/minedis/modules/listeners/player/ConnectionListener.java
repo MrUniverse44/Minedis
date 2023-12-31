@@ -14,18 +14,4 @@ public class ConnectionListener implements Listener {
         this.plugin = plugin;
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void on(PreLoginEvent event) {
-        if (plugin.isRefreshing() && !event.isCancelled()) {
-            event.setCancelled(true);
-            event.setCancelReason(
-                    TextUtilities.component(
-                            plugin.getMessages().getString(
-                                    "messages.kick.refresh",
-                                    "&aThis network is refreshing some important stuff, please wait 1 second and try again"
-                            )
-                    )
-            );
-        }
-    }
 }
