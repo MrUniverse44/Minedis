@@ -63,7 +63,11 @@ public class Commands extends DiscordModule {
                         Guild guild = getJDA().getGuildById(command.getGuild());
 
                         if (guild != null) {
-                            guild.deleteCommandById(command.getId()).queue();
+                            try {
+                                guild.deleteCommandById(command.getId()).queue();
+                            } catch (Throwable ignored) {
+                                getLogger().info("Command: " + command.getId() + " is not loaded yet.");
+                            }
                         }
                     }
             );
