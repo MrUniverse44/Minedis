@@ -6,22 +6,76 @@
 # ┃┃┃┃┃┃┃┃┃┃┃━┫┗┛┃┣━━┃
 # ┗┛┗┛┗┻┻┛┗┻━━┻━━┻┻━━┛
 #
+# Creado por JustJustin
+# 作成者 JustJustin
 # Created by JustJustin
 settings:
-  # Debug mode will help you when you have an issue, it will show extra logs for the developer to help you with the problem
+  # Spanish:
+  #   El modo de debug te ayuda cuando tienes algun error, esto te va a mostrar logs extras para que el programador pueda ayudarte
+  #   Con algun problema.
+  #
+  # Japanese:
+  #   何か問題が生じた際にデバッグモードを有効にすると、開発者が問題を解決するために必要な追加ログ情報を表示します
+  #
+  # English:
+  #   Debug mode will help you when you have an issue, it will show extra logs for the developer to help you with the problem
   debug-mode: false
-  # Here you can put your bot token, you can create your own bot in: https://discord.com/developers/applications
+  # Spanish:
+  #   Aqui podras poner tu bot token, puedes crear tu propio bot en: https://discord.com/developers/applications
+  #
+  # Japanese
+  #   ボットに組み込む際は、取得したトークンをここに設定してください: https://discord.com/developers/applications
+  #
+  # English:
+  #   Here you can put your bot token, you can create your own bot in: https://discord.com/developers/applications
   token: NOT-SET
-  # Bot Online Status System
+  # Spanish:
+  #   Sistema de estado del bot predeterminado
+  #
+  # Japanese:
+  #   オンライン状態をボットに表示するシステム
+  #
+  # English:
+  #   Bot Online Status System
   online-status:
-    # Here you can enable or disable this feature.
+    # Spanish:
+    #   Aqui podras desactivar o activar esta feature.
+    #
+    # Japanese:
+    #   ここでは、有効か無効かを設定できます。
+    #
+    # English:
+    #   Here you can enable or disable this feature.
     enabled: true
-    # Here you can change the bot status.
-    # Status list: ONLINE, IDLE, DO_NOT_DISTURB, INVISIBLE,  OFFLINE
+    # Spanish:
+    #   Aqui podras cambiar el estado del servidor.
+    #   Lista de estados: ONLINE, IDLE, DO_NOT_DISTURB, INVISIBLE,  OFFLINE
+    #
+    # Japanese:
+    #   ここでは、ボットのステータスを選択できます。
+    #   ステータス一覧: ONLINE, IDLE, DO_NOT_DISTURB, INVISIBLE,  OFFLINE
+    #
+    # English:
+    #   Here you can change the bot status.
+    #   Status list: ONLINE, IDLE, DO_NOT_DISTURB, INVISIBLE,  OFFLINE
     status: ONLINE
-    # Here you can edit the text of your status
+    # Spanish:
+    #   Aqui podras editar el texto de tu estado
+    #
+    # Japanese:
+    #   ここでは、ボットのカスタムステータスを設定できます。
+    #
+    # English:
+    #   Here you can edit the text of your status
     value: mc.spigotmc.org
-  # Intents for this bot
+  # Spanish:
+  #   Intents para este bot
+  #
+  # Japanese:
+  #   ボットが取得できる情報や権限
+  #
+  # English:
+  #   Intents for this bot
   gateway-intents:
     - MESSAGE_CONTENT
     - GUILD_MEMBERS
@@ -34,6 +88,12 @@ settings:
     - GUILD_VOICE_STATES
     - GUILD_PRESENCES
 
+# Advertencia: No modificar este path.
+# Este value va a ayudar al plugin a auto-actualizar su configuracion cuando este desactualizada.
+#
+# 警告: このパスは変更しないでください
+# この値は、古いバージョンのコンフィグファイルを自動で新しいバージョンのものに変換するための値です。
+#
 # Warn: do not modify this path
 # This value will help the plugin to auto-update configuration file when is outdated.
 configuration-version: 1.0

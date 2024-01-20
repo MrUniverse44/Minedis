@@ -53,8 +53,8 @@ public abstract class DiscordModule {
         if (caches != null && caches.length >= 1) {
             for (CacheData data : caches) {
                 plugin.getCacheMap().put(
-                        data.getIdentifier(),
-                        data.getCache()
+                    data.getIdentifier(),
+                    data.getCache()
                 );
             }
         }

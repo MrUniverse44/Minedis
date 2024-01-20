@@ -3,21 +3,15 @@ package me.blueslime.minedis.modules.listeners;
 import me.blueslime.minedis.Minedis;
 import me.blueslime.minedis.api.extension.MinedisExtension;
 import me.blueslime.minedis.modules.DiscordModule;
-import me.blueslime.minedis.modules.listeners.player.ConnectionListener;
 import net.md_5.bungee.api.plugin.Listener;
 
 import java.util.*;
 
 public class Listeners extends DiscordModule {
-    private final Map<Class<? extends MinedisExtension>, List<Listener>> minecratMap = new HashMap<>();
-    private final Map<Class<? extends MinedisExtension>, List<Object>> discordMap = new HashMap<>();
+    private final Map<String, List<Listener>> minecratMap = new HashMap<>();
+    private final Map<String, List<Object>> discordMap = new HashMap<>();
     public Listeners(Minedis plugin) {
         super(plugin);
-
-        getPluginManager().registerListener(
-                plugin,
-                new ConnectionListener(plugin)
-        );
     }
 
     public void registerDiscord(MinedisExtension extension, Object... objects) {
@@ -26,7 +20,7 @@ public class Listeners extends DiscordModule {
         }
 
         List<Object> listenerList = discordMap.computeIfAbsent(
-                extension.getClass(),
+                extension.getClass().getName(),
                 i -> new ArrayList<>()
         );
 
@@ -42,7 +36,7 @@ public class Listeners extends DiscordModule {
             return;
         }
         List<Listener> listenerList = minecratMap.computeIfAbsent(
-                extension.getClass(),
+                extension.getClass().getName(),
                 i -> new ArrayList<>()
         );
 
@@ -57,14 +51,16 @@ public class Listeners extends DiscordModule {
     }
 
     public void unregister(MinedisExtension extension) {
-        if (discordMap.containsKey(extension.getClass())) {
-            for (Object object : discordMap.get(extension.getClass())) {
+        getPlugin().getLogger().info("Unregistering extension discord listeners from extension: " + extension.getIdentifier());
+        if (discordMap.containsKey(extension.getClass().getName())) {
+            for (Object object : discordMap.get(extension.getClass().getName())) {
                 getJDA().removeEventListener(object);
             }
             discordMap.clear();
         }
-        if (minecratMap.containsKey(extension.getClass())) {
-            for (Listener listener : minecratMap.get(extension.getClass())) {
+        getPlugin().getLogger().info("Unregistering extension minecraft listeners from extension: " + extension.getIdentifier());
+        if (minecratMap.containsKey(extension.getClass().getName())) {
+            for (Listener listener : minecratMap.get(extension.getClass().getName())) {
                 getPluginManager().unregisterListener(listener);
             }
             minecratMap.clear();
@@ -72,18 +68,18 @@ public class Listeners extends DiscordModule {
     }
 
     public List<Object> getDiscord(MinedisExtension extension) {
-        if (discordMap.containsKey(extension.getClass())) {{
+        if (discordMap.containsKey(extension.getClass().getName())) {{
             return Collections.unmodifiableList(
-                    discordMap.get(extension.getClass())
+                    discordMap.get(extension.getClass().getName())
             );
         }}
         return Collections.emptyList();
     }
 
     public List<Listener> getMinecraft(MinedisExtension extension) {
-        if (minecratMap.containsKey(extension.getClass())) {{
+        if (minecratMap.containsKey(extension.getClass().getName())) {{
             return Collections.unmodifiableList(
-                    minecratMap.get(extension.getClass())
+                    minecratMap.get(extension.getClass().getName())
             );
         }}
         return Collections.emptyList();

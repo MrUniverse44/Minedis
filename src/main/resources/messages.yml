@@ -1,3 +1,10 @@
+# Extra defaults:
+#
+# Spanish:
+#   refresh: "&aLa network esta recargando cosas importantes, por favor espera un momento y vuelve a intentar"
+#
+# Japanese:
+#   refresh: "&a現在、更新の読み込み中ですので、1秒ほど時間をおいて、再度試してください"
 messages:
   kick:
     refresh: "&aThis network is refreshing some important stuff, please wait 1 second and try again"

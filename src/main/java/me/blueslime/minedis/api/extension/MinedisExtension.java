@@ -2,6 +2,7 @@ package me.blueslime.minedis.api.extension;
 
 import me.blueslime.minedis.Minedis;
 import me.blueslime.minedis.api.MinedisAPI;
+import me.blueslime.minedis.api.command.DiscordCommand;
 import me.blueslime.minedis.api.command.MinecraftCommand;
 import me.blueslime.minedis.modules.DiscordModule;
 import me.blueslime.minedis.modules.cache.Cache;
@@ -10,6 +11,8 @@ import me.blueslime.minedis.modules.discord.Bot;
 import me.blueslime.minedis.modules.discord.Controller;
 import me.blueslime.minedis.modules.listeners.Listeners;
 import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.config.Configuration;
@@ -204,6 +207,12 @@ public abstract class MinedisExtension {
                 ).save(configuration, file);
             } catch (IOException ignored) {}
         }
+    }
+
+    public void registerCommand(Guild guild, CommandData data) {
+        guild.upsertCommand(
+            data
+        ).queue(cmd -> getModule(Commands.class).add(this, DiscordCommand.build(guild.getId(), cmd.getId())));
     }
 
     public Minedis getPlugin() {

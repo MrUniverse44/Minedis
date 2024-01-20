@@ -6,7 +6,7 @@
 
     <groupId>me.blueslime</groupId>
     <artifactId>Minedis</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <packaging>jar</packaging>
 
     <name>Minedis</name>
@@ -93,14 +93,9 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.github.MrUniverse44</groupId>
-            <artifactId>SlimeLib</artifactId>
-            <version>1.0.8</version>
-        </dependency>
-        <dependency>
             <groupId>net.dv8tion</groupId>
             <artifactId>JDA</artifactId>
-            <version>5.0.0-beta.18</version>
+            <version>5.0.0-beta.19</version>
             <exclusions>
                 <exclusion>
                     <groupId>club.minnced</groupId>

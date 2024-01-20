@@ -51,15 +51,14 @@ public class Extensions extends DiscordModule {
                     for (List<Class<? extends MinedisExtension>> extensions : list) {
                         for (Class<? extends MinedisExtension> extension : extensions) {
                             try {
-                                MinedisExtension instance = extension.getDeclaredConstructor()
-                                        .newInstance();
+                                MinedisExtension instance = extension.getDeclaredConstructor().newInstance();
 
                                 if (instance.register()) {
                                     if (instance.isEnabled()) {
                                         if (!extensionMap.containsKey(instance.getIdentifier())) {
                                             extensionMap.put(
-                                                    instance.getIdentifier(),
-                                                    instance
+                                                instance.getIdentifier(),
+                                                instance
                                             );
                                             instance.onEnabled();
                                             getLogger().info("Extension: " + extension.getName() + " was loaded using identifier: " + instance.getIdentifier());
@@ -68,7 +67,6 @@ public class Extensions extends DiscordModule {
                                         }
                                     }
                                 }
-
                             } catch (Exception e) {
                                 if (e instanceof NullPointerException) {
                                     getLogger().info("Can't load extension: " + extension.getName() + ", because the extension was not found.");
@@ -128,7 +126,7 @@ public class Extensions extends DiscordModule {
                         new URL[]{
                                 jarFile
                         },
-                        MinedisExtension.class.getClassLoader()
+                        getPlugin().getClass().getClassLoader()
                 );
 
                 final List<Class<? extends MinedisExtension>> classList = new ArrayList<>();
@@ -148,13 +146,13 @@ public class Extensions extends DiscordModule {
                         }
 
                         classNameList.add(
-                                name.substring(
-                                    0,
-                                    name.lastIndexOf('.')
-                                ).replace(
-                                    '/',
-                                    '.'
-                                )
+                            name.substring(
+                                0,
+                                name.lastIndexOf('.')
+                            ).replace(
+                                '/',
+                                '.'
+                            )
                         );
                     }
 
@@ -168,8 +166,7 @@ public class Extensions extends DiscordModule {
                                 );
                             }
                         }
-                    } catch (NoClassDefFoundError ignored) {
-                    }
+                    } catch (NoClassDefFoundError ignored) { }
 
                     if (classList.isEmpty()) {
                         getLogger().info("Failed to load extension " + file.getName() + ", this extension doesn't have MinedisExtensions class in the jar file.");

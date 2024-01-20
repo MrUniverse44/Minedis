@@ -1,7 +1,7 @@
 package me.blueslime.minedis.api.command.sender;
 
 import me.blueslime.minedis.utils.text.TextReplacer;
-import net.md_5.bungee.api.ChatColor;
+import me.blueslime.minedis.utils.text.TextUtilities;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -86,12 +86,15 @@ public class Sender {
                 );
             }
         } else {
+            if (ob == null) {
+                return;
+            }
             send(
-                    colorize(
-                            replacer == null ?
-                                    ob.toString() :
-                                    replacer.apply(ob.toString())
-                    )
+                colorize(
+                    replacer == null ?
+                        ob.toString() :
+                        replacer.apply(ob.toString())
+                )
             );
         }
     }
@@ -117,20 +120,20 @@ public class Sender {
             List<?> list = (List<?>)ob;
             for (Object object : list) {
                 send(
-                        colorize(
-                                replacer == null ?
-                                        object.toString() :
-                                        replacer.apply(object.toString())
-                        )
+                    colorize(
+                        replacer == null ?
+                            object.toString() :
+                            replacer.apply(object.toString())
+                    )
                 );
             }
         } else {
             send(
-                    colorize(
-                            replacer == null ?
-                                    ob.toString() :
-                                    replacer.apply(ob.toString())
-                    )
+                colorize(
+                    replacer == null ?
+                        ob.toString() :
+                        replacer.apply(ob.toString())
+                )
             );
         }
     }
@@ -146,13 +149,13 @@ public class Sender {
 
         for (String message : messages) {
             sender.sendMessage(
-                    new TextComponent(
-                        colorize(
-                                replacer == null ?
-                                        message :
-                                        replacer.apply(message)
-                        )
+                new TextComponent(
+                    colorize(
+                        replacer == null ?
+                            message :
+                            replacer.apply(message)
                     )
+                )
             );
         }
     }
@@ -162,6 +165,6 @@ public class Sender {
     }
 
     public String colorize(String text) {
-        return ChatColor.translateAlternateColorCodes('&', text);
+        return TextUtilities.string(text);
     }
 }
