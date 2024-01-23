@@ -64,7 +64,13 @@ public class Commands extends DiscordModule {
 
                         if (guild != null) {
                             try {
-                                guild.deleteCommandById(command.getId()).queue();
+                                guild.retrieveCommandById(command.getId()).queue(
+                                    cmd -> {
+                                        if (cmd != null) {
+                                            cmd.delete().queue();
+                                        }
+                                    }
+                                );
                             } catch (Throwable ignored) {
                                 getLogger().info("Command: " + command.getId() + " is not loaded yet.");
                             }
