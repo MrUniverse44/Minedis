@@ -34,8 +34,8 @@ public class Extensions extends DiscordModule {
     public void load() {
         for (MinedisExtension extension : extensionMap.values()) {
             extension.onDisable();
-            getModule(Commands.class).unload(extension);
             getModule(Listeners.class).unregister(extension);
+            getModule(Commands.class).unload(extension);
         }
 
         extensionMap.clear();
