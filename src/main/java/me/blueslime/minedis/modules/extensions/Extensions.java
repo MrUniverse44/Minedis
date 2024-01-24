@@ -5,6 +5,7 @@ import me.blueslime.minedis.api.extension.MinedisExtension;
 import me.blueslime.minedis.modules.DiscordModule;
 import me.blueslime.minedis.modules.commands.Commands;
 import me.blueslime.minedis.modules.listeners.Listeners;
+import me.blueslime.minedis.utils.consumer.PluginConsumer;
 import me.blueslime.minedis.utils.task.TaskExecutor;
 
 import java.io.File;
@@ -33,9 +34,29 @@ public class Extensions extends DiscordModule {
     @Override
     public void load() {
         for (MinedisExtension extension : extensionMap.values()) {
-            extension.onDisable();
-            getModule(Listeners.class).unregister(extension);
-            getModule(Commands.class).unload(extension);
+            PluginConsumer.ofUnchecked(
+                "An unexpected issue has been occurred unloading extension id: " + extension.getIdentifier(),
+                () -> {
+                    extension.onDisable();
+                    return true;
+                }
+            );
+
+            PluginConsumer.ofUnchecked(
+                "Can't unregister listeners from extension id: " + extension.getIdentifier(),
+                () -> {
+                    getModule(Listeners.class).unregister(extension);
+                    return true;
+                }
+            );
+
+            PluginConsumer.ofUnchecked(
+                "Can't unregister commands from extension id: " + extension.getIdentifier(),
+                () -> {
+                    getModule(Commands.class).unload(extension);
+                    return true;
+                }
+            );
         }
 
         extensionMap.clear();
