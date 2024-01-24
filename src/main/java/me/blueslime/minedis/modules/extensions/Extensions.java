@@ -71,41 +71,44 @@ public class Extensions extends DiscordModule {
 
                     for (List<Class<? extends MinedisExtension>> extensions : list) {
                         for (Class<? extends MinedisExtension> extension : extensions) {
-                            try {
-                                MinedisExtension instance = extension.getDeclaredConstructor().newInstance();
+                            PluginConsumer.process(
+                                () -> {
+                                    MinedisExtension instance = extension.getDeclaredConstructor().newInstance();
 
-                                if (instance.register()) {
-                                    if (instance.isEnabled()) {
-                                        if (!extensionMap.containsKey(instance.getIdentifier())) {
-                                            extensionMap.put(
-                                                instance.getIdentifier(),
-                                                instance
-                                            );
-                                            instance.onEnabled();
-                                            getLogger().info("Extension: " + extension.getName() + " was loaded using identifier: " + instance.getIdentifier());
-                                        } else {
-                                            getLogger().info("Ignoring extension: " + extension.getName() + ", This extension have a conflict with other extension using the same identifier. (" + instance.getIdentifier() + ")");
+                                    if (instance.register()) {
+                                        if (instance.isEnabled()) {
+                                            if (!extensionMap.containsKey(instance.getIdentifier())) {
+                                                extensionMap.put(
+                                                        instance.getIdentifier(),
+                                                        instance
+                                                );
+                                                instance.onEnabled();
+                                                getLogger().info("Extension: " + extension.getName() + " was loaded using identifier: " + instance.getIdentifier());
+                                            } else {
+                                                getLogger().info("Ignoring extension: " + extension.getName() + ", This extension have a conflict with other extension using the same identifier. (" + instance.getIdentifier() + ")");
+                                            }
                                         }
                                     }
-                                }
-                            } catch (Exception e) {
-                                if (e instanceof NullPointerException) {
-                                    getLogger().info("Can't load extension: " + extension.getName() + ", because the extension was not found.");
+                                },
+                                e -> {
+                                    if (e instanceof NullPointerException) {
+                                        getLogger().info("Can't load extension: " + extension.getName() + ", because the extension was not found.");
+                                        e.printStackTrace();
+                                        return;
+                                    }
+                                    if (e instanceof IllegalArgumentException) {
+                                        getLogger().info("Can't load extension: " + extension.getName() + ", because the constructor have parameters");
+                                        e.printStackTrace();
+                                        return;
+                                    }
+                                    if (e instanceof InstantiationException) {
+                                        getLogger().info("Can't load extension: " + extension.getName() + ", this extension is a abstract class.");
+                                        e.printStackTrace();
+                                        return;
+                                    }
                                     e.printStackTrace();
-                                    return;
                                 }
-                                if (e instanceof IllegalArgumentException) {
-                                    getLogger().info("Can't load extension: " + extension.getName() + ", because the constructor have parameters");
-                                    e.printStackTrace();
-                                    return;
-                                }
-                                if (e instanceof InstantiationException) {
-                                    getLogger().info("Can't load extension: " + extension.getName() + ", this extension is a abstract class.");
-                                    e.printStackTrace();
-                                    return;
-                                }
-                                e.printStackTrace();
-                            }
+                            );
                         }
                     }
                 }
