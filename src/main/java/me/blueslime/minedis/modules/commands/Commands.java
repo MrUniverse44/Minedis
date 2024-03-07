@@ -7,15 +7,22 @@ import me.blueslime.minedis.api.extension.MinedisExtension;
 import me.blueslime.minedis.modules.DiscordModule;
 import me.blueslime.minedis.modules.commands.list.MainCommand;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.exceptions.ErrorHandler;
+import net.dv8tion.jda.api.interactions.commands.Command;
+import net.dv8tion.jda.api.requests.ErrorResponse;
+import net.dv8tion.jda.api.requests.RestAction;
 
 import java.util.*;
 
 public class Commands extends DiscordModule {
     private final Map<String, List<DiscordCommand>> discordCommandMap = new HashMap<>();
     private final Map<String, List<MinecraftCommand>> commandMap = new HashMap<>();
+
+
     public Commands(Minedis plugin) {
         super(plugin);
     }
+
 
     @Override
     public void load() {
@@ -64,13 +71,18 @@ public class Commands extends DiscordModule {
 
                         if (guild != null) {
                             try {
-                                guild.retrieveCommandById(command.getId()).queue(
-                                    cmd -> {
-                                        if (cmd != null) {
-                                            cmd.delete().queue();
-                                        }
-                                    }
-                                );
+                               RestAction<Command> commandAction = guild.retrieveCommandById(command.getId());
+
+                               commandAction.queue(
+                                   cmd -> {
+                                       if (cmd != null) {
+                                           cmd.delete().queue();
+                                       }
+                                   },
+                                   new ErrorHandler().ignore(
+                                       ErrorResponse.UNKNOWN_COMMAND
+                                   )
+                               );
                             } catch (Throwable ignored) {
                                 getLogger().info("Command: " + command.getId() + " is not loaded yet.");
                             }

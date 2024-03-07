@@ -212,7 +212,10 @@ public abstract class MinedisExtension {
     public void registerCommand(Guild guild, CommandData data) {
         guild.upsertCommand(
             data
-        ).queue(cmd -> getModule(Commands.class).add(this, DiscordCommand.build(guild.getId(), cmd.getId())));
+        ).queue(cmd -> {
+            getModule(Commands.class).add(this, DiscordCommand.build(guild.getId(), cmd.getId()));
+            getLogger().info("Added command with id: " + cmd.getId() + " to guild with id: " + guild.getId());
+        });
     }
 
     public Minedis getPlugin() {
