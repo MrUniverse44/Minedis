@@ -4,12 +4,14 @@ import me.blueslime.minedis.Minedis;
 import me.blueslime.minedis.api.extension.MinedisExtension;
 import me.blueslime.minedis.modules.DiscordModule;
 import net.md_5.bungee.api.plugin.Listener;
+import net.md_5.bungee.api.plugin.PluginManager;
 
 import java.util.*;
 
 public class Listeners extends DiscordModule {
     private final Map<String, List<Listener>> minecratMap = new HashMap<>();
     private final Map<String, List<Object>> discordMap = new HashMap<>();
+
     public Listeners(Minedis plugin) {
         super(plugin);
     }
@@ -20,8 +22,8 @@ public class Listeners extends DiscordModule {
         }
 
         List<Object> listenerList = discordMap.computeIfAbsent(
-                extension.getClass().getName(),
-                i -> new ArrayList<>()
+            extension.getClass().getName(),
+            i -> new ArrayList<>()
         );
 
         listenerList.addAll(Arrays.asList(objects));
@@ -36,16 +38,16 @@ public class Listeners extends DiscordModule {
             return;
         }
         List<Listener> listenerList = minecratMap.computeIfAbsent(
-                extension.getClass().getName(),
-                i -> new ArrayList<>()
+            extension.getClass().getName(),
+            i -> new ArrayList<>()
         );
 
         listenerList.addAll(Arrays.asList(listeners));
 
         for (Listener listener : listeners) {
             getPluginManager().registerListener(
-                    getPlugin(),
-                    listener
+                getPlugin(),
+                listener
             );
         }
     }
@@ -70,7 +72,7 @@ public class Listeners extends DiscordModule {
     public List<Object> getDiscord(MinedisExtension extension) {
         if (discordMap.containsKey(extension.getClass().getName())) {{
             return Collections.unmodifiableList(
-                    discordMap.get(extension.getClass().getName())
+                discordMap.get(extension.getClass().getName())
             );
         }}
         return Collections.emptyList();
@@ -79,9 +81,26 @@ public class Listeners extends DiscordModule {
     public List<Listener> getMinecraft(MinedisExtension extension) {
         if (minecratMap.containsKey(extension.getClass().getName())) {{
             return Collections.unmodifiableList(
-                    minecratMap.get(extension.getClass().getName())
+                minecratMap.get(extension.getClass().getName())
             );
         }}
         return Collections.emptyList();
+    }
+
+    public void unregisterAll() {
+        List<Listener> listenerList = new ArrayList<>();
+
+        minecratMap.values().forEach(listenerList::addAll);
+
+        PluginManager manager = getPluginManager();
+
+        if (!listenerList.isEmpty()) {
+            listenerList.forEach(
+                    manager::unregisterListener
+            );
+        }
+
+        discordMap.clear();
+        minecratMap.clear();
     }
 }
